@@ -46,6 +46,8 @@ function FindNewPlace() {
         onChange={handleSearch}
       />
       <button onClick={() => handleClick("Button clicked")}>Find</button>
+      <button onClick={() => handleClick("Button clicked")}>Find</button>
+      <button onClick={() => handleClick("Button clicked")}>Find</button>
       {findPlaces.length > 0 ? (
         findPlaces
           .filter((findPlaces) => findPlaces.name.includes(search))

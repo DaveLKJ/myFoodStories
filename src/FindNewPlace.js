@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Add from "./Add";
 
 const tripUrl = "https://api.content.tripadvisor.com/api/v1/location/search";
 const tripApiKey = process.env.REACT_APP_TRIPADVISOR_API_KEY;
@@ -7,6 +8,7 @@ const tripApiKey = process.env.REACT_APP_TRIPADVISOR_API_KEY;
 function FindNewPlace() {
   const [findPlaces, setFindPlaces] = useState([]);
   const [search, setSearch] = useState("");
+  const [restaurant, setRestaurant] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +35,8 @@ function FindNewPlace() {
     setSearch(e.target.value);
   };
 
-  const handleClick = (placeName) => {
-    console.log("Clicked on place:", placeName);
+  const handleSelect = (restaurant) => {
+    setRestaurant(restaurant);
   };
 
   return (
@@ -45,22 +47,26 @@ function FindNewPlace() {
         value={search}
         onChange={handleSearch}
       />
-      <button onClick={() => handleClick("Button clicked")}>Find</button>
-      <button onClick={() => handleClick("Button clicked")}>Find</button>
-      <button onClick={() => handleClick("Button clicked")}>Find</button>
-      {findPlaces.length > 0 ? (
-        findPlaces
-          .filter((findPlaces) => findPlaces.name.includes(search))
-          .map((findPlaces) => (
-            <div
-              key={findPlaces.location_id}
-              onClick={() => handleClick(findPlaces.name)}
-            >
-              {findPlaces.name}
-            </div>
-          ))
+
+      {restaurant ? (
+        <Add restaurant={restaurant} />
       ) : (
-        <p></p>
+        <div>
+          {findPlaces.length > 0 ? (
+            findPlaces
+              .filter((findPlaces) => findPlaces.name.includes(search))
+              .map((findPlaces) => (
+                <div key={findPlaces.location_id}>
+                  <div>{findPlaces.name}</div>
+                  <button onClick={() => handleSelect(findPlaces)}>
+                    Select
+                  </button>
+                </div>
+              ))
+          ) : (
+            <p>Error: Not found.</p>
+          )}
+        </div>
       )}
     </div>
   );

@@ -14,7 +14,6 @@ function Add({ restaurant }) {
             {
               fields: {
                 Name: restaurant.name,
-                Address: restaurant.address,
               },
             },
           ],
@@ -27,14 +26,17 @@ function Add({ restaurant }) {
       );
       console.log("Added restaurant to airtable: ", restaurant);
     } catch (error) {
+      console.log(restaurant.name);
       console.log("Error in adding restaurant to airtable: ", restaurant);
     }
   };
 
   return (
     <div style={{ margin: "20px" }}>
-      <p>Selected Restaurant: {restaurant.name}</p>
-      <button onClick={PostAirtable}>Add to Airtable</button>
+      <p>
+        {restaurant.name}
+        <button onClick={PostAirtable}>Add to list</button>
+      </p>
     </div>
   );
 }

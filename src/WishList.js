@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import DeleteWishList from "./DeleteWishList";
 
 const airtableUrl =
   "https://api.airtable.com/v0/appsx7AvYkrm7CafY/tbl1VJLUopl0kNBuC";
 const bearerToken = process.env.REACT_APP_AIRTABLE_BEARER_TOKEN;
 
-function List() {
+function WishList() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -21,15 +22,24 @@ function List() {
     getData();
   }, []);
 
+  const handleDelete = (id) => {
+    setList((prevList) => prevList.filter((item) => item.id !== id));
+  };
+
   return (
-    <div style={{ margin: "20px" }}>
+    <div  style={{ margin: "20px" }}>
       <h2>Restaurant Wish List</h2>
-      <table>
+      <table className="table">
         <tbody>
-          {list.map((record) => (
-            <tr key={record.fields.Name}>
-              <td>{record.fields.Name}</td>
-              {/* need to add in a row which can transfer data to visited list */}
+          {list.map((item) => (
+            <tr key={item.fields.Name}>
+              <td>
+                <DeleteWishList
+                  key={item.id}
+                  item={item}
+                  onDelete={handleDelete}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -38,4 +48,4 @@ function List() {
   );
 }
 
-export default List;
+export default WishList;

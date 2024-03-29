@@ -25,6 +25,7 @@ function Add({ restaurant }) {
         }
       );
       console.log("Added restaurant to airtable: ", restaurant);
+      alert("Restaurant added");
     } catch (error) {
       console.log(restaurant.name);
       console.log("Error in adding restaurant to airtable: ", restaurant);

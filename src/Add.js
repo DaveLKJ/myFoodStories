@@ -35,7 +35,7 @@ function Add({ restaurant }) {
     <div style={{ margin: "20px" }}>
       <p>
         {restaurant.name}
-        <button onClick={PostAirtable}>Add to list</button>
+        <button onClick={PostAirtable}>Add to wishlist</button>
       </p>
     </div>
   );

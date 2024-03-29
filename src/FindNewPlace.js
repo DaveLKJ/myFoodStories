@@ -11,25 +11,27 @@ function FindNewPlace() {
   const [restaurant, setRestaurant] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(tripUrl, {
-          params: {
-            key: tripApiKey,
-            searchQuery: "Singapore",
-            category: "restaurants",
-            language: "en",
-          },
-          headers: { accept: "application/json" },
-        });
-        console.log(response);
-        setFindPlaces(response.data.data);
-      } catch (error) {
-        console.error("Error fetching places:", error);
-      }
-    };
-    fetchData();
-  }, []);
+    fetchData(search);
+  }, [search]);
+
+  const fetchData = async (searchQuery) => {
+    try {
+      const response = await axios.get(tripUrl, {
+        params: {
+          key: tripApiKey,
+          searchQuery: searchQuery,
+          category: "restaurants",
+          language: "en",
+        },
+        headers: { accept: "application/json" },
+      });
+      console.log("response ", response);
+      console.log("response.data.data ", response.data.data);
+      setFindPlaces(response.data.data);
+    } catch (error) {
+      console.error("Error fetching places:", error);
+    }
+  };
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -47,24 +49,33 @@ function FindNewPlace() {
         value={search}
         onChange={handleSearch}
       />
+      <button onClick={() => fetchData(search)}>Search</button>
 
       {restaurant ? (
         <Add restaurant={restaurant} />
       ) : (
         <div>
           {findPlaces.length > 0 ? (
-            findPlaces
-              .filter((findPlaces) => findPlaces.name.includes(search))
-              .map((findPlaces) => (
-                <div key={findPlaces.location_id}>
-                  <div>{findPlaces.name}</div>
-                  <button onClick={() => handleSelect(findPlaces)}>
-                    Select
-                  </button>
-                </div>
-              ))
+            <table>
+              <tbody>
+                {findPlaces
+                  .filter((place) =>
+                    place.name.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .map((place) => (
+                    <tr key={place.location_id}>
+                      <td>{place.name}</td>
+                      <td>
+                        <button onClick={() => handleSelect(place)}>
+                          Select
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           ) : (
-            <p>Error: Not found.</p>
+            <p>No places found.</p>
           )}
         </div>
       )}

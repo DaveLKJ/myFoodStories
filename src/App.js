@@ -26,10 +26,12 @@ function App() {
               <a href="/List">List</a>
             </li>
             <li>
-              <a href="/FindNewPlace">Wish List</a>
+              <a href="/FindNewPlace">Add new wish</a>
             </li>
           </ul>
         </nav>
+
+        
 
         <Switch>
           <Route path="/List">

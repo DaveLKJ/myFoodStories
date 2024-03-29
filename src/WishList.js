@@ -29,13 +29,11 @@ function List() {
           {list.map((record) => (
             <tr key={record.fields.Name}>
               <td>{record.fields.Name}</td>
-{/* need to add in a row which can transfer data to visited list */}
-
+              {/* need to add in a row which can transfer data to visited list */}
             </tr>
           ))}
         </tbody>
       </table>
-
     </div>
   );
 }
